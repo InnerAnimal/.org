@@ -273,3 +273,14 @@ echo ""
 echo "🆘 Need help? connor@meauxbility.org"
 echo ""
 echo "======================================================================"
+
+# Deploy GODMODE Agent
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "🎮 Deploying GODMODE Agent..."
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+
+cd workers/godmode-agent
+wrangler deploy
+cd ../..
+
+echo "✅ GODMODE Agent deployed!"

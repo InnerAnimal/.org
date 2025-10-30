@@ -1,0 +1,52 @@
+# ==================================================================
+# GODMODE AGENT - Cloudflare Workers Configuration
+# ==================================================================
+
+name = "godmode-agent"
+main = "index.ts"
+compatibility_date = "2025-03-07"
+compatibility_flags = ["nodejs_compat"]
+
+# Durable Objects
+[[durable_objects.bindings]]
+name = "GODMODE_AGENT"
+class_name = "GodModeAgent"
+
+# Migrations for Durable Objects
+[[migrations]]
+tag = "v1"
+new_classes = ["GodModeAgent"]
+
+# KV Namespace
+[[kv_namespaces]]
+binding = "MEAUXBILITY_KV"
+id = "YOUR_KV_ID"  # Replace with: wrangler kv:namespace create "MEAUXBILITY_KV"
+
+# D1 Database
+[[d1_databases]]
+binding = "MEAUXBILITY_D1"
+database_name = "meauxbility-production"
+database_id = "YOUR_D1_ID"  # Replace with: wrangler d1 create meauxbility-production
+
+# R2 Bucket
+[[r2_buckets]]
+binding = "MEAUXBILITY_R2"
+bucket_name = "meauxbility-assets"
+
+# Environment Variables (non-secret)
+[vars]
+VERSION = "2.0.0"
+ENVIRONMENT = "production"
+
+# Observability
+[observability]
+enabled = true
+
+# Limits
+[limits]
+cpu_ms = 50000
+
+# Routes (optional - add your custom domain)
+# [[routes]]
+# pattern = "api.meauxbility.org/*"
+# zone_name = "meauxbility.org"
