@@ -1,0 +1,86 @@
+# ==================================================================
+# CLOUDFLARE WORKERS CONFIGURATION
+# ==================================================================
+# Deploy all 6 workers with: wrangler deploy
+
+name = "meauxbility-workers"
+compatibility_date = "2024-01-01"
+
+# ==================================================================
+# WORKER 1: API VAULT
+# ==================================================================
+[[services]]
+name = "api-vault"
+main = "workers/api-vault.js"
+compatibility_date = "2024-01-01"
+
+[services.vars]
+# Add your variables in .dev.vars for local dev
+
+[[services.kv_namespaces]]
+binding = "API_VAULT"
+id = "YOUR_KV_NAMESPACE_ID"  # Create with: wrangler kv:namespace create "API_VAULT"
+
+# ==================================================================
+# WORKER 2: IMAGE OPTIMIZER
+# ==================================================================
+[[services]]
+name = "image-optimizer"
+main = "workers/image-optimizer.js"
+compatibility_date = "2024-01-01"
+
+[[services.r2_buckets]]
+binding = "MEDIA_ASSETS"
+bucket_name = "meauxbility-media"  # Create with: wrangler r2 bucket create meauxbility-media
+
+# ==================================================================
+# WORKER 3: STRIPE WEBHOOK HANDLER
+# ==================================================================
+[[services]]
+name = "stripe-webhook"
+main = "workers/stripe-webhook.js"
+compatibility_date = "2024-01-01"
+
+[services.vars]
+SUPABASE_URL = "https://ghiulqoqujsiofsjcrqk.supabase.co"
+
+# Secrets (add with: wrangler secret put SUPABASE_SERVICE_ROLE_KEY)
+# - SUPABASE_SERVICE_ROLE_KEY
+# - STRIPE_WEBHOOK_SECRET
+
+# ==================================================================
+# WORKER 4: EMAIL WEBHOOK HANDLER
+# ==================================================================
+[[services]]
+name = "email-webhook"
+main = "workers/email-webhook-handler.js"
+compatibility_date = "2024-01-01"
+
+[services.vars]
+SUPABASE_URL = "https://ghiulqoqujsiofsjcrqk.supabase.co"
+
+# ==================================================================
+# WORKER 5: ANALYTICS AGGREGATOR
+# ==================================================================
+[[services]]
+name = "analytics-aggregator"
+main = "workers/analytics-aggregator.js"
+compatibility_date = "2024-01-01"
+
+[services.vars]
+SUPABASE_URL = "https://ghiulqoqujsiofsjcrqk.supabase.co"
+
+# ==================================================================
+# WORKER 6: DNS HEALTH MONITOR
+# ==================================================================
+[[services]]
+name = "dns-health-monitor"
+main = "workers/dns-health-monitor.js"
+compatibility_date = "2024-01-01"
+
+[services.vars]
+SUPABASE_URL = "https://ghiulqoqujsiofsjcrqk.supabase.co"
+
+# Cron trigger - runs every 5 minutes
+[services.triggers]
+crons = ["*/5 * * * *"]
