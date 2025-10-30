@@ -10,6 +10,25 @@ Follow these steps exactly:
 
 ### Step 1: Authenticate with Cloudflare (2 minutes)
 
+**IMPORTANT**: The API token in `.env` doesn't have sufficient permissions for D1/KV operations.
+
+**Option A: Create New API Token (Recommended)**
+
+1. Go to: https://dash.cloudflare.com/profile/api-tokens
+2. Click "Create Token"
+3. Use "Edit Cloudflare Workers" template
+4. Add these additional permissions:
+   - Account > D1 > Edit
+   - Account > Workers KV Storage > Edit
+   - Account > Workers Scripts > Edit
+5. Copy the new token
+6. Update `/home/user/.org/.env`:
+   ```bash
+   CLOUDFLARE_API_TOKEN=your_new_token_here
+   ```
+
+**Option B: Interactive Login (Alternative)**
+
 ```bash
 cd /home/user/.org/overnight-automation/workers/godmode-agent
 
@@ -18,6 +37,8 @@ wrangler login
 ```
 
 **What happens**: Browser opens, you authorize Wrangler, then close browser and return to terminal.
+
+**Current Status**: API token found but lacks D1/KV permissions. Need Option A or B above.
 
 ---
 
